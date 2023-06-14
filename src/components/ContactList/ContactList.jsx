@@ -6,7 +6,7 @@ import { fetchContacts } from 'redux/thunk';
 import { useEffect } from 'react';
 
 function ContactList() {
-  const contacts = useSelector(getContacts);
+  const { items, isLoading } = useSelector(getContacts);
   const filterValue = useSelector(getFilter);
   const dispatch = useDispatch();
 
@@ -14,15 +14,17 @@ function ContactList() {
     dispatch(fetchContacts());
   }, [dispatch]);
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   const contactDelete = (id) => {
     dispatch(deleteContact(id));
   }
 
-  const visibleContacts = contacts.filter((contact) =>
+  const visibleContacts = items.filter((contact) =>
     contact.name.toLowerCase().includes(filterValue.toLowerCase())
   );
-
-  console.log(visibleContacts)
 
   return (
     <List>
