@@ -1,4 +1,4 @@
-import {List, Button, ListItem } from './ContactList.styled';
+import {List, Button, ListItem, Loading, Container } from './ContactList.styled';
 import { getContacts, getFilter } from 'redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contactsSlice';
@@ -14,10 +14,6 @@ function ContactList() {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
   const contactDelete = (id) => {
     dispatch(deleteContact(id));
   }
@@ -27,14 +23,19 @@ function ContactList() {
   );
 
   return (
-    <List>
-      {visibleContacts.map(({ id, name, phone }) => (
-        <ListItem key={id}>
-          {name}: {phone}
-          <Button type="button" onClick={() => contactDelete(id)}>Delete</Button>
-        </ListItem>
-      ))}
-    </List>
+    <Container>
+      <Loading>
+        {isLoading && <p>Loading...</p>}
+      </Loading>
+      <List>
+        {visibleContacts.map(({ id, name, phone }) => (
+          <ListItem key={id}>
+            {name}: {phone}
+            <Button type="button" onClick={() => contactDelete(id)}>Delete</Button>
+          </ListItem>
+        ))}
+      </List>
+    </Container>
   );
 }
 

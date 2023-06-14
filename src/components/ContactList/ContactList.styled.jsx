@@ -31,3 +31,12 @@ export const Button = styled.button`
         background-color:#b30a07; 
     }
 `;
+export const Container =styled.div`
+    position: relative;
+`
+
+export const Loading = styled.div`
+    position: absolute;
+    top: -25px;
+    left: 15px;
+`
